@@ -1,6 +1,7 @@
 const express = require('express');
 const hbs=require('hbs');
 const fs=require('fs');
+const port = process.env.PORT || 3600;
 var app = express();
 hbs.registerPartials(`${__dirname}/views/partials`)
 app.set('view engine','hbs')
@@ -12,7 +13,7 @@ app.use((req,res,next)=>{
   var now = new Date().toString();
   var log = `Welcome ..LOGGED  ${now} ${req.method} ${req.url}`;
   console.log(log);
-  fs.appendFile('server.log',log+'\n',(err)=>{
+  fs.appendFile('server.log',log+'\n',(error)=>{
     console.log('Unable to append to server.log')
   });
   next();
@@ -44,10 +45,10 @@ app.get('/about',(req,res) => {
 });
 });
 app.get('/bad',(req,res) => {
-console.log(req.socket);  
+console.log(req.socket);
  res.send({
    errorMessage:"unable to connect"
  });
 });
 
-app.listen(3600,()=>{console.log('Server up at port 3600')});
+app.listen(port,()=>{console.log(`Server up at port ${port}`)});
